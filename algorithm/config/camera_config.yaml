@@ -1,0 +1,42 @@
+# 相机配置文件
+# 基于海康机器人 MV-CS016-10GC 工业相机参数
+# 实际使用前需通过标定板（如棋盘格）重新标定，更新内参
+
+camera:
+  model: "MV-CS016-10GC"
+  resolution:
+    width: 1440      # 图像宽度 (px)
+    height: 1080     # 图像高度 (px)
+  sensor:
+    pixel_size_um: 3.45   # 像元尺寸 (μm)
+    width_mm: 4.968       # 传感器宽度 (mm)
+    height_mm: 3.726      # 传感器高度 (mm)
+
+# 相机内参矩阵 K（占位值，需标定后替换）
+# K = [fx, 0, cx; 0, fy, cy; 0, 0, 1]
+intrinsics:
+  fx: 800.0        # 焦距 x (px)
+  fy: 800.0        # 焦距 y (px)
+  cx: 720.0        # 主点 x (px)
+  cy: 540.0        # 主点 y (px)
+  distortion: [0.0, 0.0, 0.0, 0.0, 0.0]  # 畸变系数 [k1,k2,p1,p2,k3]
+
+# 相机在车体坐标系中的外参
+# 相机安装位置：车体正前方，俯视角度
+extrinsics:
+  # 相机在车体坐标系中的位置 (单位: m)
+  # x: 前向, y: 左向, z: 上向
+  translation:
+    x: 0.15        # 相机在车体前方 0.15m
+    y: 0.0         # 居中安装
+    z: 0.35        # 相机离地高度 0.35m
+  # 旋转矩阵: 相机坐标系 -> 车体坐标系
+  # 相机光轴前下方俯视，绕y轴旋转 pitch_angle
+  rotation_deg:
+    roll: 0.0      # 绕x轴 (deg)
+    pitch: 25.0    # 绕y轴，俯视角度 (deg)，正值为低头
+    yaw: 0.0       # 绕z轴 (deg)
+
+# 地面平面假设
+ground:
+  z_world: 0.0     # 地面在车体坐标系中的 z 坐标 (m)

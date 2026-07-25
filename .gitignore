@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# 模型权重（过大，单独分享）
+algorithm/models/balls_trash/weights/
+algorithm/models/balls_trash/*.png
+algorithm/models/balls_trash/*.jpg
+yolo11n.pt
+
+# 数据集（过大，仿真生成）
+algorithm/dataset/
+
+# 训练运行结果
+algorithm/runs/
+runs/
+
+# 测试输出
+algorithm/test/output/*.jpg
+algorithm/test/output/*.png
+algorithm/test/output/*.txt
+algorithm/test/output/*.csv
+
+# 调试归档
+algorithm/test/archive/
+
+# 压缩包
+*.zip
+*.rar
+
+# 培训课件
+培训课件/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db

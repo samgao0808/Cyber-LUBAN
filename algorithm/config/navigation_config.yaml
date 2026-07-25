@@ -1,0 +1,58 @@
+# 导航算法配置文件
+# 仿真阶段使用手画地图 + 真值定位
+# 实车阶段替换为 SLAM 地图 + RTK+IMU 定位
+
+# 栅格地图参数
+map:
+  width: 20.0              # 地图宽度 (m)
+  height: 20.0             # 地图高度 (m)
+  resolution: 0.1          # 栅格分辨率 (m/格)
+  obstacle_inflation: 0.3  # 障碍物膨胀半径 (m)，增加安全距离
+
+# 机器人物理参数
+robot:
+  max_linear_speed: 1.0    # 最大线速度 (m/s)
+  max_angular_speed: 1.5   # 最大角速度 (rad/s)
+  max_linear_accel: 0.5    # 最大线加速度 (m/s²)
+  max_angular_accel: 1.0   # 最大角加速度 (rad/s²)
+  robot_radius: 0.25       # 机器人半径 (m)，用于避障碰撞检测
+
+# 全局路径规划 (A*)
+global_planner:
+  algorithm: "astar"       # 规划算法: astar / dijkstra / rrt
+  heuristic: "euclidean"   # 启发函数: euclidean / manhattan / diagonal
+  allow_diagonal: true     # 是否允许对角线移动 (8邻域)
+
+# 局部路径规划 (DWA)
+local_planner:
+  algorithm: "dwa"               # 局部规划算法
+  predict_time: 2.0              # 轨迹预测时间 (s)
+  dt: 0.1                        # 仿真时间步长 (s)
+  velocity_samples: 10           # 线速度采样数
+  angular_samples: 20            # 角速度采样数
+  # 打分函数权重
+  score_weights:
+    heading: 0.4                 # 路径跟随权重（沿全局路径前进 + 贴合路径）
+    clearance: 0.25              # 障碍物距离权重
+    velocity: 0.35               # 速度大小权重
+  goal_tolerance: 0.2            # 目标到达容差 (m)
+  obstacle_safety_dist: 0.1      # 避障安全距离 (m)，A* 路径已保证安全，DWA 只需小缓冲
+
+# 目标点管理
+target:
+  reach_tolerance: 0.15          # 到达目标的位置容差 (m)
+  orientation_tolerance: 0.15    # 到达目标的角度容差 (rad)
+  replan_interval: 1.0           # 重新规划间隔 (s)，动态环境需重新规划
+
+# 安全参数
+safety:
+  max_speed: 0.8                 # 全局限速 (m/s)
+  emergency_stop_dist: 0.15      # 紧急制动距离 (m)
+  collision_check_radius: 0.3    # 碰撞检测半径 (m)
+
+# 仿真参数
+simulation:
+  fps: 10                        # 仿真帧率
+  max_steps: 500                 # 最大仿真步数
+  enable_visualization: true     # 是否启用可视化
+  save_animation: false          # 是否保存动画

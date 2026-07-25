@@ -1,0 +1,75 @@
+# 视觉模块配置文件
+# 控制目标检测、坐标解算、抓取选择等视觉相关参数
+
+# 目标检测配置
+detection:
+  confidence_threshold: 0.5       # 最低置信度阈值
+  nms_iou_threshold: 0.45        # NMS 的 IoU 阈值
+  max_detections: 20             # 单帧最大检测数量
+
+# 目标类别定义
+# id 与模型训练时保持一致
+classes:
+  pingpong_ball:
+    id: 0
+    name: "乒乓球"
+    real_diameter_m: 0.040       # 实际直径 40mm
+    color: "white_or_orange"
+  tennis_ball:
+    id: 1
+    name: "网球"
+    real_diameter_m: 0.067       # 实际直径 67mm
+    color: "yellow_green"
+  paper_trash:
+    id: 2
+    name: "纸团"
+    typical_size_m: [0.03, 0.10]
+    color: "white_gray"
+  bottle_can:
+    id: 3
+    name: "瓶子/易拉罐"
+    typical_size_m: [0.05, 0.15]
+    color: "red_blue_silver"
+  plastic_bag:
+    id: 4
+    name: "塑料袋"
+    typical_size_m: [0.05, 0.20]
+    color: "various"
+
+# 颜色检测器参数 (HSV 范围)
+color_detector:
+  pingpong_white:
+    h_low: 0
+    h_high: 180
+    s_low: 0
+    s_high: 30
+    v_low: 200
+    v_high: 255
+  pingpong_orange:
+    h_low: 5
+    h_high: 25
+    s_low: 100
+    s_high: 255
+    v_low: 100
+    v_high: 255
+  tennis_yellow:
+    h_low: 20
+    h_high: 40
+    s_low: 80
+    s_high: 255
+    v_low: 80
+    v_high: 255
+  min_contour_area: 100          # 最小轮廓面积 (px²)
+  circularity_range: [0.6, 1.2]  # 圆度范围
+
+# 目标选择策略
+target_selector:
+  strategy: "nearest"            # 选择策略: nearest / highest_confidence / priority
+  priority_order: ["pingpong_ball", "tennis_ball", "paper_trash", "bottle_can", "plastic_bag"]  # priority 策略时的优先级
+  min_grab_distance_m: 0.10      # 最小抓取距离 (m)，太近无法抓取
+  max_grab_distance_m: 3.0       # 最大抓取距离 (m)
+
+# 模型路径
+model_paths:
+  yolo_weights: "algorithm/models/yolo_balls_trash.pt"
+  yolo_config: "algorithm/models/yolo_config.yaml"
