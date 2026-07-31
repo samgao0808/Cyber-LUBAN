@@ -75,7 +75,35 @@ class YoloDetector(BaseDetector):
                 self._model = YOLO(self.model_path)
                 self._model_loaded = True
                 self._is_fallback = False
+
+                # 自动检测模型类别数并适配类名映射
+                nc = getattr(self._model.model, 'nc', None) or len(self._model.names)
+                model_names = self._model.names
                 print(f"[YoloDetector] 已加载自定义模型: {self.model_path}")
+                print(f"[YoloDetector] 模型类别数: {nc}, 类别映射: {model_names}")
+
+                # 根据模型实际类别动态更新类名和直径映射
+                if nc == 1:
+                    # 单类模型（乒乓球）
+                    detected_name = model_names.get(0, "pingpong_ball")
+                    self._class_names = {0: detected_name}
+                    self._diameter_map = {0: 0.040}
+                else:
+                    # 多类模型，根据模型names动态映射
+                    self._class_names = {}
+                    self._diameter_map = {}
+                    default_diameters = {
+                        "pingpong_ball": 0.040,
+                        "tennis_ball": 0.067,
+                        "paper_trash": None,
+                        "bottle_can": None,
+                        "plastic_bag": None,
+                    }
+                    for cid, cname in model_names.items():
+                        cname_lower = str(cname).lower()
+                        self._class_names[int(cid)] = cname_lower
+                        self._diameter_map[int(cid)] = default_diameters.get(cname_lower)
+
                 return True
             except Exception as e:
                 print(f"[YoloDetector] 自定义模型加载失败: {e}")

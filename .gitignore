@@ -4,39 +4,49 @@ __pycache__/
 *.pyo
 *.egg-info/
 
-# 模型权重（过大，单独分享）
-algorithm/models/balls_trash/weights/
-algorithm/models/balls_trash/*.png
-algorithm/models/balls_trash/*.jpg
-yolo11n.pt
+# ========== 模型文件 ==========
+# 旧根目录 models/（模型已迁移到 algorithm/models/）
+/models/
 
-# 数据集（过大，仿真生成）
+# 备份模型和重复权重（不上传）
+algorithm/models/yolo_5class_backup.pt
+algorithm/models/yolo_pingpong_best.pt
+
+# 训练产物中的权重（best.pt是重复的，已在 yolo_balls_trash.pt 中）
+algorithm/models/pingpong_v1_results/*/weights/
+
+# 旧仿真模型训练产物（已被真实模型取代）
+algorithm/models/balls_trash/
+
+# ========== 数据集（过大，不上传） ==========
 algorithm/dataset/
+real dataset/
 
-# 训练运行结果
+# ========== 训练运行临时产物 ==========
 algorithm/runs/
 runs/
 
-# 测试输出
-algorithm/test/output/*.jpg
-algorithm/test/output/*.png
-algorithm/test/output/*.txt
-algorithm/test/output/*.csv
-
-# 调试归档
+# ========== 测试输出（自动生成） ==========
+algorithm/test/output/
 algorithm/test/archive/
 
-# 压缩包
+# ========== 内部文件（仅本地使用，不上传GitHub） ==========
+终端输出.md
+开发日志.md
+
+# ========== 压缩包 ==========
 *.zip
 *.rar
+*.tar.gz
 
-# 培训课件
+# ========== 培训课件/文档 ==========
 培训课件/
+*.pdf
 
-# IDE
+# ========== IDE ==========
 .vscode/
 .idea/
 
-# 系统文件
+# ========== 系统文件 ==========
 .DS_Store
 Thumbs.db
